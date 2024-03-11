@@ -2,15 +2,17 @@ import subprocess
 try:
     from quart import Quart, redirect, url_for, render_template, send_file
     import configparser
+    from analytics import analytics as runanalytics
 except:
     subprocess.run(["python3", "-m", "pip", "install", "-r", "requirements.txt"])
     from quart import Quart, redirect, url_for, render_template
     import configparser
+    from analytics import analytics as runanalytics
 
 config = configparser.ConfigParser()
 config.read('config.properties')
 
-app = Quart('', template_folder='templates')
+app = Quart('', template_folder='templates', static_folder='templates/static')
 
 @app.route('/')
 async def reroute():
@@ -38,6 +40,19 @@ async def xreroute():
 @app.route("/image")
 async def image():
     return await send_file("./icon.jpeg", mimetype='image/png')
+
+@app.route("/analytics", methods=["POST"])
+async def analytics():
+    if config.get("config", "analytics") == "true":
+        json = await request.get_json()
+        await runanalytics(json, app)
+        return jsonify({"status":"success"})
+    else:
+        return jsonify({"status":"failure"})
+
+@app.route("/js/analytics")
+async def jsanalytics():
+    return await send_file("./templates/static/analytics.js", mimetype="text/javascript")
 
 @app.errorhandler(404)
 async def notfound(*_):

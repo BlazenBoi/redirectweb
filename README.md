@@ -19,8 +19,11 @@ Change the ```config.properties.example``` file to ```config.properties```.
 youtube=
 instagram=
 twitter=
+
+[config]
+analytics=false
 ```
-Add the variables to the config file.
+Add the variables to the config file. Change config to desired values.
 
 Add the image you would like (preferably a square image) to the root directory named ```image.jpeg```.
 

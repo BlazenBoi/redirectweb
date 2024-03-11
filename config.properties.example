@@ -2,3 +2,6 @@
 youtube=
 instagram=
 twitter=
+
+[config]
+analytics=false
