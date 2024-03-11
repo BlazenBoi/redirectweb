@@ -1,18 +1,22 @@
 import subprocess
 try:
-    from quart import Quart, redirect, url_for, render_template, send_file
+    from quart import Quart, redirect, url_for, render_template, send_file, request, jsonify
     import configparser
+    from motor.motor_asyncio import AsyncIOMotorClient
     from analytics import analytics as runanalytics
 except:
     subprocess.run(["python3", "-m", "pip", "install", "-r", "requirements.txt"])
-    from quart import Quart, redirect, url_for, render_template
+    from quart import Quart, redirect, url_for, render_template, request, jsonify
     import configparser
+    from motor.motor_asyncio import AsyncIOMotorClient
     from analytics import analytics as runanalytics
 
 config = configparser.ConfigParser()
 config.read('config.properties')
 
 app = Quart('', template_folder='templates', static_folder='templates/static')
+app.db = AsyncIOMotorClient(config.get("variables", "mongourl"))[config.get("variables", "database")]
+app.db.acollection = app.db["analytics"]
 
 @app.route('/')
 async def reroute():
