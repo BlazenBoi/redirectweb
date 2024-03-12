@@ -1,4 +1,4 @@
-# Setup
+# RedirectWeb
 
 A website I designed to similar to linktree.
 
@@ -26,6 +26,10 @@ analytics=false
 Add the variables to the config file. Change config to desired values.
 
 Add the image you would like (preferably a square image) to the root directory named ```image.jpeg```.
+
+## Startup
+
+Run the command ```hypercorn main:app``` to run the website. If you want to run it on a specific host and port add ```-b="{host}:{port}``` to the end of the command.
 
 ## Contributing
 
